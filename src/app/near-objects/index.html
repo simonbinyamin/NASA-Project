@@ -5,8 +5,11 @@
 	<script src="https://threejs.org/build/three.min.js"></script>
 	<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.6.0/Tween.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="near.script.js"></script>
+ 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  	<script src="near.script.js"></script>
+ 	<script src="../../services/asteroid.service.js"></script>
+	<script src="../../environments/environment.js"></script>
+
   <link rel="stylesheet" href="near.style.css"> 
 </head>
 <body>
@@ -18,7 +21,7 @@
 		var scaleVector = new THREE.Vector3();
 		init();
 		animate();
-    postData();
+		GetAstros(environment.GetAsteroids);
 	</script>
 </body>
 </html> 
