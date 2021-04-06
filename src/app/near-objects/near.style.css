@@ -1,0 +1,12 @@
+body {
+    overflow: hidden;
+    margin:0;
+    padding: 0;
+  }
+  
+  #myPlanet {
+      width : 400px;
+      height: 400px;
+      margin : auto;
+  }
+  
