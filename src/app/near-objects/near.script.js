@@ -1,4 +1,5 @@
-function init() {
+function init(data) {
+    console.log(data);
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.set(0, 100, 175);
@@ -10,13 +11,17 @@ function init() {
     document.body.appendChild(renderer.domElement);
   
     controls = new THREE.OrbitControls(camera, renderer.domElement);
-  
+    const loaderAstro = new THREE.TextureLoader();
     var createPlanet = function(name, radius, orbit, speed) {
-      var geom = new THREE.SphereGeometry(radius, 32, 16);
+      var geom = new THREE.DodecahedronGeometry(radius, 1);
+
+
+
+      
       var mat = new THREE.MeshBasicMaterial({
-        color: Math.random() * 0xFFFFFF,
-        //wireframe: true
+        map: loaderAstro.load('https://i.ibb.co/sb6wGTx/7885198-3x2-940x627.png'),
       });
+
       var planet = new THREE.Mesh(geom, mat);
       planet.userData.orbit = orbit;
       planet.userData.speed = speed;
@@ -25,11 +30,10 @@ function init() {
       canvas.width = 256;
       canvas.height = 256;
       var ctx = canvas.getContext("2d");
-      ctx.font = "44pt Arial";
+      ctx.font = "20pt Arial";
       ctx.fillStyle = "white";
       ctx.textAlign = "center";
       ctx.fillText(name, 128, 44);
-      //console.log(ctx);
       var tex = new THREE.Texture(canvas);
       tex.needsUpdate = true;
       var spriteMat = new THREE.SpriteMaterial({
@@ -49,26 +53,39 @@ function init() {
       var orbitGeom = new THREE.BufferGeometry().setFromPoints(spacedPoints); 
       orbitGeom.rotateX(THREE.Math.degToRad(-90));
       var orbit = new THREE.Line(orbitGeom, new THREE.LineBasicMaterial({
-        color: "yellow"
+        color: "#013220"
       }));
       scene.add(orbit);
     };
+
+    for (i = 0; i < data.length; i++) {
+
+      var name = data[i].name
+      var size = data[i].estimated_diameter.kilometers.estimated_diameter_max;
+      var dist = data[i].close_approach_data[0].miss_distance.lunar;
+      var speed = data[i].close_approach_data[0].relative_velocity.kilometers_per_second;
+      console.log(size);
+      createPlanet(name, parseInt(size)+0.75, parseInt(dist) + 4, speed/4);
+      
+    }
+
+
+  //size, dist, speed
   
-    createPlanet("rock1", 1, 10, 5);
-    createPlanet("rock2", 1.5, 20, 3);
+    //createPlanet("rock2", 1.5, 20, 3);
     //createPlanet("rock1", 60, 600, 4);
-    createPlanet("rock3", 1.8, 40, 2);
-    createPlanet("rock4", 3, 60, 0.8);
-    createPlanet("rock5", 2.5, 70, 0.5);
-    createPlanet("rock6", 1.75, 80, 0.4);
-    createPlanet("rock7", 0.8, 90, 0.2);
+  //  createPlanet("rock3", 1.8, 40, 2);
+   // createPlanet("rock4", 3, 60, 0.8);
+   // createPlanet("rock5", 2.5, 70, 0.5);
+    //createPlanet("rock6", 1.75, 80, 0.4);
+    //createPlanet("rock7", 0.8, 90, 0.2);
   
     //console.log(planets[0].children[0]);
   
     const loader = new THREE.TextureLoader();
     var newEarth = new THREE.Mesh(new THREE.SphereGeometry(5, 32, 16), new THREE.MeshBasicMaterial({
       
-      map: loader.load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg'),
+      map: loader.load('https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Large_World_Topo_Map_2.png/1200px-Large_World_Topo_Map_2.png'),
     }));
   
   

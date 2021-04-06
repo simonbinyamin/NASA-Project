@@ -16,20 +16,17 @@
 
 	<script>
 
-		axios.get(environment.GetAsteroids).then((p)=>{
-			console.log(p)
+		var camera, scene, renderer, controls;
+		var planets = [];
+		var timestamp = 0;
+		var scaleVector = new THREE.Vector3();
 
+		axios.get(environment.GetAsteroids).then((p)=>{
+			init(p.data);
+			animate();
 
 		});
 
-
-
-		var camera, scene, renderer, controls;
-			var planets = [];
-			var timestamp = 0;
-			var scaleVector = new THREE.Vector3();
-			init();
-			animate();
 	</script>
 </body>
 </html> 
