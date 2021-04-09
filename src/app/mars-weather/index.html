@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+	<script src="https://threejs.org/build/three.min.js"></script>
+	<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.6.0/Tween.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="mars.script.js"></script>
+	<script src="../../environments/environment.js"></script>
+
+	<link rel="stylesheet" href="mars.style.css">
+</head>
+
+<body>
+
+	<script>
+
+
+		var camera, scene, renderer, controls;
+		var planets = [];
+		var timestamp = 0;
+		var scaleVector = new THREE.Vector3();
+
+		axios.get(environment.GetWeather).then((w) => {
+
+			var date = (w.data.terrestrial_date).split(" ")[0];
+			var d = date.split("/");
+			var day = (d[2]) + '-'+ (d[0]) + '-'+ (d[1]);
+
+			axios.get(environment.GetMarsphoto + "/" + day).then((p) => {
+				var res = "";
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						res = "succ";
+					}
+				};
+				xhttp.open("GET", p.data, true);
+				xhttp.send();
+
+				Await(1000).then(() => {
+					res == "succ" ? init(w.data, p.data): init(w.data, 'https://i.ibb.co/syGsqRb/3052-MH0002270001101086-T01-DXXX.jpg');
+				});
+
+			});
+
+		});
+
+		function Await(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+	</script>
+</body>
+
+</html>
