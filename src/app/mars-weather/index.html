@@ -16,6 +16,7 @@
 
 <body>
 
+	<div id="spinner" class="loadingspinner"></div>
 	<script>
 
 
@@ -24,6 +25,7 @@
 		var timestamp = 0;
 		var scaleVector = new THREE.Vector3();
 
+
 		axios.get(environment.GetWeather).then((w) => {
 
 			var date = (w.data.terrestrial_date).split(" ")[0];
@@ -31,27 +33,12 @@
 			var day = (d[2]) + '-'+ (d[0]) + '-'+ (d[1]);
 
 			axios.get(environment.GetMarsphoto + "/" + day).then((p) => {
-				var res = "";
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function () {
-					if (this.readyState == 4 && this.status == 200) {
-						res = "succ";
-					}
-				};
-				xhttp.open("GET", p.data, true);
-				xhttp.send();
-
-				Await(1000).then(() => {
-					res == "succ" ? init(w.data, p.data): init(w.data, 'https://i.ibb.co/syGsqRb/3052-MH0002270001101086-T01-DXXX.jpg');
-				});
-
+				document.getElementById("spinner").style.display = 'none';
+				init(w.data, p.data);
+				animate();
 			});
 
 		});
-
-		function Await(ms) {
-			return new Promise(resolve => setTimeout(resolve, ms));
-		}
 	</script>
 </body>
 

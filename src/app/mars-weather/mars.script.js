@@ -12,12 +12,11 @@ function init(w, p) {
     document.body.appendChild(renderer.domElement);
   
     controls = new THREE.OrbitControls(camera, renderer.domElement);
-    const loaderAstro = new THREE.TextureLoader();
     var createPlanet = function(name, radius, orbit, speed) {
       var geom = new THREE.SphereGeometry(radius, 320, 16);
 
       var mat = new THREE.MeshBasicMaterial({
-        map: loaderAstro.load(p)
+        map: THREE.ImageUtils.loadTexture('data:image/png;base64,' + p),
       });
 
 
@@ -64,12 +63,11 @@ function init(w, p) {
 
     const loader = new THREE.TextureLoader();
     var Sun = new THREE.Mesh(new THREE.SphereGeometry(50, 320, 16), new THREE.MeshBasicMaterial({
-      
+
       map: loader.load('https://i.ibb.co/fHQ8Fg2/suncyl1.jpg'),
     }));
   
     scene.add(Sun);
-    animate();
   }
   
 

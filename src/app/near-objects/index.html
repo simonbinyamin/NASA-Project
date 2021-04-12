@@ -14,6 +14,7 @@
 </head>
 <body>
 
+	<div id="spinner" class="loadingspinner"></div>
 	<script>
 
 		var camera, scene, renderer, controls;
@@ -22,6 +23,7 @@
 		var scaleVector = new THREE.Vector3();
 
 		axios.get(environment.GetAsteroids).then((p)=>{
+			document.getElementById("spinner").style.display = 'none';
 			init(p.data);
 			animate();
 
